@@ -1,0 +1,1 @@
+{"required":true,"package":"dev.bettermapx.mixin","compatibilityLevel":"JAVA_21","client":["OutlineMixin","ColorMixin"],"injectors":{"defaultRequire":1}}

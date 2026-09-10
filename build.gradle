@@ -1,0 +1,21 @@
+plugins { id 'fabric-loom' version '1.8.13'; id 'maven-publish' }
+version = '0.4.2-alpha'
+group = 'dev.bettermapx'
+base { archivesName = 'bettermapx' }
+repositories { mavenCentral() }
+dependencies {
+    minecraft 'com.mojang:minecraft:1.21.1'
+    mappings 'net.fabricmc:yarn:1.21.1+build.3:v2'
+    modImplementation 'net.fabricmc:fabric-loader:0.16.10'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.116.1+1.21.1'
+}
+processResources { inputs.property 'version', project.version; filesMatching('fabric.mod.json') { expand 'version': project.version } }
+tasks.withType(JavaCompile).configureEach { options.release = 21; options.encoding = 'UTF-8' }
+java { toolchain.languageVersion = JavaLanguageVersion.of(21); withSourcesJar() }
+tasks.named('jar') { from('LICENSE') }
+tasks.register('atlasDataTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'dev.bettermapx.AtlasDataTest'
+}
+tasks.named('check') { dependsOn 'atlasDataTest' }
